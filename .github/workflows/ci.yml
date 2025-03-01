@@ -20,11 +20,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-
+        
       - name: Install dependencies
         run: npm install
 
-      - name: Run the app
-        run: npm run start
-        env:
-          CI: true
+      - name: Run the app in the background
+        run: |
+          nohup npm run start &
+          sleep 10
+
+      - name: Run tests or other steps
+        run: |
+          curl http://localhost:3000
