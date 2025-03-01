@@ -1,0 +1,99 @@
+<%- include('partials/header.ejs', {
+    title : `Link3DS - Progress`
+}) -%>
+
+<body>
+    <div class="main-content">
+        <h1>Progress</h1>
+        <br>
+        <div class="feature-list">
+            <% progressLists.sections.forEach(function(section) { 
+                let total = 0;
+                let completed = 0;
+
+                if (section.cards) {
+                    if (section.cards.done) {
+                        completed += section.cards.done.length;
+                        total += section.cards.done.length;
+                    }
+                    if (section.cards.in_progress) {
+                        completed += section.cards.in_progress.length * 0.5;
+                        total += section.cards.in_progress.length;
+                    }
+                    if (section.cards.todo) {
+                        total += section.cards.todo.length;
+                    }
+                }
+
+                let percentage = total > 0 ? (completed / total) * 100 : 0;
+            %>
+                <div class="games-card" id="<%= section.title.replace(/\s+/g, '-').toLowerCase() %>">
+                    <%- include('partials/progress-list', { data: section }) %>
+
+                    <div class="progress-bar-wrapper">
+                        <div class="progress-bar" id="progress-bar-<%= section.title.replace(/\s+/g, '-').toLowerCase() %>" style="width: 0%;">
+                            <span class="progress-percentage" id="progress-percentage-<%= section.title.replace(/\s+/g, '-').toLowerCase() %>">0%</span>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>  
+        </div>
+    </div>
+</body>
+
+<%- include('partials/footer.ejs') -%>
+
+<script>
+    function animateProgressBar(sectionId, targetPercentage) {
+        const progressBar = document.getElementById(`progress-bar-${sectionId}`);
+        const progressPercentage = document.getElementById(`progress-percentage-${sectionId}`);
+        let currentPercentage = 0;
+
+        function changeColor(percentage) {
+            if (percentage <= 25) {
+                progressBar.style.backgroundColor = "#FF0000";
+            } else if (percentage <= 50) {
+                progressBar.style.backgroundColor = "#FF8000";
+            } else if (percentage <= 75) {
+                progressBar.style.backgroundColor = "#FFFF00";
+            } else {
+                progressBar.style.backgroundColor = "#00FF00";
+            }
+        }
+
+        const interval = setInterval(function() {
+            if (currentPercentage < targetPercentage) {
+                currentPercentage++;
+                progressBar.style.width = currentPercentage + "%";
+                progressPercentage.textContent = currentPercentage + "%";
+                changeColor(currentPercentage);
+            } else {
+                clearInterval(interval);
+            }
+        }, 10);
+    }
+
+    <% progressLists.sections.forEach(function(section) { 
+        let total = 0;
+        let completed = 0;
+
+        if (section.cards) {
+            if (section.cards.done) {
+                completed += section.cards.done.length;
+                total += section.cards.done.length;
+            }
+            if (section.cards.in_progress) {
+                completed += section.cards.in_progress.length * 0.5;
+                total += section.cards.in_progress.length;
+            }
+            if (section.cards.todo) {
+                total += section.cards.todo.length;
+            }
+        }
+
+        let percentage = total > 0 ? (completed / total) * 100 : 0;
+    %>
+
+        animateProgressBar("<%= section.title.replace(/\s+/g, '-').toLowerCase() %>", <%= percentage %>);
+    <% }); %>
+</script>

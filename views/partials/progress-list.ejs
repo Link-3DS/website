@@ -1,0 +1,33 @@
+<div class="feature-list-wrapper">
+	<div class="core">
+		<% if (data.title) { %>
+			<div class="progress-title">
+				<h3><%= data.title %></h3>
+			</div>
+		<% } %>
+		<div class="feature-list">
+			<% data.cards.done.forEach(function(card) { %>
+				<div class="feature">
+					<div class="custom-checkbox done">	
+					</div>
+					<span><%= card %></span>
+				</div>
+			<% }); %>
+
+			<% data.cards.in_progress.forEach(function(card) { %>
+				<div class="feature">
+					<div class="custom-checkbox ongoing">
+					</div>
+					<span><%= card %></span>
+				</div>
+			<% }); %>
+
+			<% data.cards.todo.forEach(function(card) { %>
+				<div class="feature">
+					<div class="custom-checkbox incomplete"></div>
+					<span><%= card %></span>
+				</div>
+			<% }); %>
+		</div>
+	</div>
+</div>
