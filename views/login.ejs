@@ -1,0 +1,28 @@
+<%- include('partials/header.ejs', {
+    title : `Link3DS - Login`
+}) -%>
+
+<body>
+    <%- include('partials/bar.ejs') %>
+
+    <div class="main-content">
+        <h1>Login</h1>
+        <div class="login-content">
+            <form action="/account/login" method="POST">
+                <div class="login-card">
+                    <label for="username">Username :</label>
+                    <input type="text" id="username" name="username" required class="form-control">
+                    <label for="password">Password :</label>
+                    <input type="password" id="password" name="password" required class="form-control">
+                    <% if (errorMessage) { %>
+                        <div class="error-message">
+                            <p><%= errorMessage %></p>
+                        </div>
+                    <% } %>
+                    <button type="submit">Login</button>
+                    <p>Don't have an account? <a href="/account/register">Register</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
