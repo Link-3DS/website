@@ -1,2 +1,2 @@
 # website
-Official website of Link3DS
+- Official website of Link3DS.
